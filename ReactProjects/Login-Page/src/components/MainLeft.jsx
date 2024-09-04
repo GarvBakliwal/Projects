@@ -1,8 +1,10 @@
 import React from 'react'
-
+import bgImage from '../assets/bg-image-main.png'
 const MainLeft = () => {
   return (
-    <div>MainLeft</div>
+    <div>MainLeft
+      <img src={bgImage} alt="" />
+    </div>
   )
 }
 
