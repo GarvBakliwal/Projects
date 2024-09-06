@@ -1,9 +1,12 @@
 import React from 'react'
-import bgImage from '../assets/bg-image-main.png'
+import '../styles/MainLeft.css'
 const MainLeft = () => {
   return (
-    <div>MainLeft
-      <img src={bgImage} alt="" />
+    <div className='Container'>
+      <div className="heading">
+        <h1>Turn Your Ideas into reality</h1>
+        <h3>Start for free and get attractive offers from the community</h3>
+      </div>
     </div>
   )
 }
