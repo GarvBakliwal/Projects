@@ -36,7 +36,7 @@ const LoginForm = () => {
         <div className='input-remember'style={{display:hidden}}>
           <div id='remember-me-checkbox' >
             <input type="checkbox" name="" id="" />
-            <label htmlFor="">Remember me for 30 days</label>
+            <label htmlFor="">Remember me</label>
           </div>
           <p><a href="#">Forgot Password ?</a></p>
         </div>

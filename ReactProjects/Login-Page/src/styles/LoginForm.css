@@ -12,6 +12,14 @@
     width: 450px;
     line-height: 2.5rem;
 }
+.container h2{
+    font-family: 'Apple Chancery';
+    font-size: 2rem;
+}
+.container p{
+    font-family: 'Charter';
+    font-style: italic;
+}
 .input-form{
     display: flex;
     flex-direction: column;
@@ -23,9 +31,12 @@
 }
 #remember-me-checkbox label{
     margin-left: 5px;
+    font-family: 'Charter';
+    font-size: 1rem;
 }
 .input-remember a{
-    text-decoration: none;
+    text-decoration: underline;
+    font-family: 'Palatino';
     color: black;
 }
 .submit-buttons{
@@ -41,6 +52,7 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 1rem;
 }
 .submit-buttons button:hover{
     background-color: black;
@@ -50,6 +62,9 @@
     height: 50px;
     border: none;
     border-bottom: 2px solid rgba(0, 0, 0, 0.255);
+}
+.input-box:focus{
+    outline: none;
 }
 .footer{
     text-align: center;
