@@ -74,7 +74,12 @@ body {
     width: 100%;
     outline: none;
 }
-
+#error{
+    color: red;
+    line-height: 5px;
+    font-size: 12px;
+    text-align: left;
+}
 .form-container {
     position: absolute;
     top: 0px;
