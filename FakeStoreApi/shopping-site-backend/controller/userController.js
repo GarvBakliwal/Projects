@@ -1,6 +1,6 @@
 const e = require('express');
 const userData = require('../model/userModel.js');
-
+const bcrypt = require('bcrypt');
 exports.create = async (req, res) => {
     try {
         const { email } = req.body;
@@ -17,6 +17,26 @@ exports.create = async (req, res) => {
         }
     } catch (error) {
         res.status(400).send(error);
+    }
+}
+exports.login = async (req,res)=>{
+    try {
+        const {email,password} = req.body;
+        const user = await userData.findOne({email})
+        // console.log(user);
+        if (!user) {
+            return res.status(400).send('User is not registered, Please register and try again')
+        }
+        const isPasswordMatch = await bcrypt.compare(password,user.password);
+        if (!isPasswordMatch) {
+            return res.status(400).send('Password do not Match')
+        }
+        res.status(200).json({
+            message:"Login Successful"
+        })
+    }
+    catch(error){
+        res.status(400).json({message:error});
     }
 }
 exports.read = async (req, res) => {

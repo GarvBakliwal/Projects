@@ -121,7 +121,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-
+import axios from 'axios';
+import {toast} from 'sonner'
 const AuthForm = () => {
   const [isActive, setIsActive] = useState(false); // State to toggle between Sign In and Sign Up forms
   const [isRegistering, setIsRegistering] = useState(false); // State to manage schema
@@ -155,9 +156,26 @@ const AuthForm = () => {
   });
 
   // Handle form submission
-  const onSubmit = (data) => {
-    console.log(data);
-    navigate("/");
+  const onSubmit = async (data) => {
+    // console.log(data);
+      if (schema==loginSchema) {
+        try {
+          const response = await axios.post('http://localhost:8000/api/login',data);
+          toast.success("User Logged in Successfully");
+          navigate("/");
+        } catch (error) {
+          toast.error(error.response.data);
+        }
+      }
+      else if (schema==registerSchema){
+        try {
+          const response = await axios.post('http://localhost:8000/api/create',data);
+          toast.success("User registered Successfully");
+          navigate("/");
+        } catch (error) {
+          toast.error(error.response.data);
+        }
+      }
   };
 
   // Toggle between Sign In and Sign Up form
