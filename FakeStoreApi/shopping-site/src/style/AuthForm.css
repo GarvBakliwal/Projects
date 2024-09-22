@@ -1,11 +1,11 @@
-* {
+*{
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+    /* font-family: 'Montserrat', sans-serif; */
 }
 
-body {
+#wrapper {
     background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
     display: flex;
@@ -74,7 +74,7 @@ body {
     width: 100%;
     outline: none;
 }
-#error{
+.error{
     color: red;
     line-height: 5px;
     font-size: 12px;
@@ -192,6 +192,9 @@ body {
 .toggle-panel h1{
     margin-bottom: 40px;
 }
+/* .toggle-panel p{
+    color: black;
+} */
 .toggle-left{
     transform: translateX(-200%);
 }

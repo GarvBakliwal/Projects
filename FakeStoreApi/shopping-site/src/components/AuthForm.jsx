@@ -30,13 +30,13 @@
 //     console.log(data)
 //     // navigate("/");
 //   };
-  
+
 //   const handleToggle = () => {
 //     setIsActive(!isActive)
 //     setSchema(!schema)
 //   };
 //   var { register, formState: { errors }, handleSubmit } = useForm({ resolver: zodResolver(schema?loginSchema:registerSchema) });
-  
+
 //   return (
 //     <div className={`container ${isActive ? "active" : ""}`} id="container">
 //       {/* Sign Up Form */}
@@ -114,7 +114,7 @@
 // export default AuthForm;
 
 import React, { useState, useEffect } from "react";
-import "../style/AuthForm.css"; 
+import "../style/AuthForm.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGooglePlusG, faFacebookF, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useForm } from "react-hook-form";
@@ -122,7 +122,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import {toast} from 'sonner'
+import { toast } from 'sonner'
 const AuthForm = () => {
   const [isActive, setIsActive] = useState(false); // State to toggle between Sign In and Sign Up forms
   const [isRegistering, setIsRegistering] = useState(false); // State to manage schema
@@ -158,24 +158,24 @@ const AuthForm = () => {
   // Handle form submission
   const onSubmit = async (data) => {
     // console.log(data);
-      if (schema==loginSchema) {
-        try {
-          const response = await axios.post('http://localhost:8000/api/login',data);
-          toast.success("User Logged in Successfully");
-          navigate("/");
-        } catch (error) {
-          toast.error(error.response.data);
-        }
+    if (schema == loginSchema) {
+      try {
+        const response = await axios.post('http://localhost:8000/api/login', data);
+        toast.success("User Logged in Successfully");
+        navigate("/");
+      } catch (error) {
+        toast.error(error.response.data);
       }
-      else if (schema==registerSchema){
-        try {
-          const response = await axios.post('http://localhost:8000/api/create',data);
-          toast.success("User registered Successfully");
-          navigate("/");
-        } catch (error) {
-          toast.error(error.response.data);
-        }
+    }
+    else if (schema == registerSchema) {
+      try {
+        const response = await axios.post('http://localhost:8000/api/create', data);
+        toast.success("User registered Successfully");
+        navigate("/");
+      } catch (error) {
+        toast.error(error.response.data);
       }
+    }
   };
 
   // Toggle between Sign In and Sign Up form
@@ -186,81 +186,84 @@ const AuthForm = () => {
   };
 
   return (
-    <div className={`container ${isActive ? "active" : ""}`} id="container">
-      {/* Sign Up Form */}
-      <div className="form-container sign-up">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>Create Account</h1>
-          <div className="social-icons">
-            <a href="#" className="icons"><FontAwesomeIcon icon={faGooglePlusG} /></a>
-            <a href="#" className="icons"><FontAwesomeIcon icon={faFacebookF} /></a>
-            <a href="#" className="icons"><FontAwesomeIcon icon={faGithub} /></a>
-            <a href="#" className="icons"><FontAwesomeIcon icon={faTwitter} /></a>
-          </div>
-          <span>Or Use your Email for Registration</span>
-          
-          {isRegistering && (
-            <>
-              <input type="text" placeholder="Name" {...register("name")} />
-              {errors.name && <div className="error">{errors.name.message}</div>}
-              
-              <input type="tel" placeholder="Phone" {...register("phone")} />
-              {errors.phone && <div className="error">{errors.phone.message}</div>}
-            </>
-          )}
+    <div id="wrapper">
 
-          <input type="email" placeholder="Email" {...register("email")} />
-          {errors.email && <div className="error">{errors.email.message}</div>}
+      <div className={`container ${isActive ? "active" : ""}`} id="container">
+        {/* Sign Up Form */}
+        <div className="form-container sign-up">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <h1>Create Account</h1>
+            <div className="social-icons">
+              <a href="#" className="icons"><FontAwesomeIcon icon={faGooglePlusG} /></a>
+              <a href="#" className="icons"><FontAwesomeIcon icon={faFacebookF} /></a>
+              <a href="#" className="icons"><FontAwesomeIcon icon={faGithub} /></a>
+              <a href="#" className="icons"><FontAwesomeIcon icon={faTwitter} /></a>
+            </div>
+            <span>Or Use your Email for Registration</span>
 
-          <input type="password" placeholder="Password" {...register("password")} />
-          {errors.password && <div className="error">{errors.password.message}</div>}
+            {isRegistering && (
+              <>
+                <input type="text" placeholder="Name" {...register("name")} />
+                {errors.name && <div className="error">{errors.name.message}</div>}
 
-          <button type="submit">{isRegistering ? "Sign up" : "Sign in"}</button>
-        </form>
-      </div>
+                <input type="tel" placeholder="Phone" {...register("phone")} />
+                {errors.phone && <div className="error">{errors.phone.message}</div>}
+              </>
+            )}
 
-      {/* Sign In Form */}
-      <div className="form-container sign-in">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>{isRegistering ? "Sign In" : "Sign Up"}</h1>
-          <div className="social-icons">
-            <a href="#" className="icons"><FontAwesomeIcon icon={faGooglePlusG} /></a>
-            <a href="#" className="icons"><FontAwesomeIcon icon={faFacebookF} /></a>
-            <a href="#" className="icons"><FontAwesomeIcon icon={faGithub} /></a>
-            <a href="#" className="icons"><FontAwesomeIcon icon={faTwitter} /></a>
-          </div>
-          <span>Or Use your Email & Password</span>
+            <input type="email" placeholder="Email" {...register("email")} />
+            {errors.email && <div className="error">{errors.email.message}</div>}
 
-          {!isRegistering && (
-            <>
-              <input type="email" placeholder="Email" {...register("email")} />
-              {errors.email && <div className="error">{errors.email.message}</div>}
+            <input type="password" placeholder="Password" {...register("password")} />
+            {errors.password && <div className="error">{errors.password.message}</div>}
 
-              <input type="password" placeholder="Password" {...register("password")} />
-              {errors.password && <div className="error">{errors.password.message}</div>}
-            </>
-          )}
+            <button type="submit">{isRegistering ? "Sign up" : "Sign in"}</button>
+          </form>
+        </div>
 
-          <button type="submit">{isRegistering ? "Sign in" : "Sign up"}</button>
-        </form>
-      </div>
+        {/* Sign In Form */}
+        <div className="form-container sign-in">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <h1>{isRegistering ? "Sign In" : "Sign Up"}</h1>
+            <div className="social-icons">
+              <a href="#" className="icons"><FontAwesomeIcon icon={faGooglePlusG} /></a>
+              <a href="#" className="icons"><FontAwesomeIcon icon={faFacebookF} /></a>
+              <a href="#" className="icons"><FontAwesomeIcon icon={faGithub} /></a>
+              <a href="#" className="icons"><FontAwesomeIcon icon={faTwitter} /></a>
+            </div>
+            <span>Or Use your Email & Password</span>
 
-      {/* Toggle between Sign In and Sign Up */}
-      <div className="toggle-container">
-        <div className="toggle">
-          <div className="toggle-panel toggle-left">
-            <h1>Welcome Back!</h1>
-            <p>Enter your personal details to use all of the site features.</p>
-            <button className="hidden" onClick={handleToggle}>
-              {isRegistering ? "Sign In" : "Sign Up"}
-            </button>
-          </div>
-          <div className="toggle-panel toggle-right">
-            <h1>Hello Friend!</h1>
-            <p>Register with your personal details to use all of the site features.</p>
-            <button className="hidden" onClick={handleToggle}>
-              {isRegistering ? "Sign Up" : "Sign In"}
-            </button>
+            {!isRegistering && (
+              <>
+                <input type="email" placeholder="Email" {...register("email")} />
+                {errors.email && <div className="error">{errors.email.message}</div>}
+
+                <input type="password" placeholder="Password" {...register("password")} />
+                {errors.password && <div className="error">{errors.password.message}</div>}
+              </>
+            )}
+
+            <button type="submit">{isRegistering ? "Sign in" : "Sign up"}</button>
+          </form>
+        </div>
+
+        {/* Toggle between Sign In and Sign Up */}
+        <div className="toggle-container">
+          <div className="toggle">
+            <div className="toggle-panel toggle-left">
+              <h1>Welcome Back!</h1>
+              <p>Enter your personal details to use all of the site features.</p>
+              <button className="hidden" onClick={handleToggle}>
+                {isRegistering ? "Sign In" : "Sign Up"}
+              </button>
+            </div>
+            <div className="toggle-panel toggle-right">
+              <h1>Hello Friend!</h1>
+              <p>Register with your personal details to use all of the site features.</p>
+              <button className="hidden" onClick={handleToggle}>
+                {isRegistering ? "Sign Up" : "Sign In"}
+              </button>
+            </div>
           </div>
         </div>
       </div>

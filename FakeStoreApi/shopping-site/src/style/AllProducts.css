@@ -1,0 +1,10 @@
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 900px;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
