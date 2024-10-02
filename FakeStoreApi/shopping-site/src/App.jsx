@@ -1,18 +1,20 @@
-import './style/App.css'
-import { Routes, Route } from "react-router-dom"
-import AuthForm from "./components/AuthForm.jsx";
-import Homepage from "../src/pages/Homepage.jsx";
-import { Toaster } from 'sonner';
+import Template from "./template/Template";
+import ProductDetail from "./products/detail/ProductDetail";
+import { Routes, Route } from "react-router-dom";
+import Landing from "./Homepage/Landing";
+import ProductList from "./products/ProductList";
+import AuthForm from './components/AuthForm'
 function App() {
   return (
-    <div>
+    <Template>
       <Routes>
-        <Route path='/' element={<Homepage/>} />
-        <Route path='/form' element={<AuthForm/>} />
+        <Route path="/products" element={<ProductList />} />
+        <Route path="/products/:slug" element={<ProductDetail />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/form" element={<AuthForm />} />
       </Routes>
-      <Toaster position='bottom-right'/>
-    </div>
-  )
+    </Template>
+  );
 }
 
-export default App
+export default App;

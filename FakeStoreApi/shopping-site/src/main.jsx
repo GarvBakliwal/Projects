@@ -1,12 +1,24 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './style/index.css'
-import { BrowserRouter } from 'react-router-dom'
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
+import "./bootstrap-custom.css";
+import "./index.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from "./App";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+library.add(fas, far, fab);
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+  <React.StrictMode>
+    <Router>
       <App />
-    </BrowserRouter>
-  </StrictMode>,
-)
+    </Router>
+  </React.StrictMode>
+);
