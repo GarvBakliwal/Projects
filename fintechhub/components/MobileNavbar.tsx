@@ -28,7 +28,14 @@ const MobileNavbar = ({ user }: MobileNavProps) => {
             width={30}
             className='cursor-pointer' />
         </SheetTrigger>
+
+        {/* ✅ Added SheetHeader with SheetTitle */}
         <SheetContent side='left' className='border-none bg-white '>
+          <SheetHeader>
+            <SheetTitle>Navigation</SheetTitle> 
+            <SheetDescription>Select a section to navigate</SheetDescription>
+          </SheetHeader>
+
           <Link href="/" className='flex cursor-pointer items-center gap-1 px-4'>
             <Image
               src='/icons/logo.svg'
@@ -40,6 +47,7 @@ const MobileNavbar = ({ user }: MobileNavProps) => {
               FinTech
             </h1>
           </Link>
+
           <div className='mobilenav-sheet'>
             <SheetClose asChild>
               <nav className='flex flex-col h-full pt-16 gap-6 text-white'>
@@ -48,14 +56,14 @@ const MobileNavbar = ({ user }: MobileNavProps) => {
                   return (
                     <SheetClose asChild key={item.route}>
                       <Link href={item.route} key={item.label} className={cn('mobilenav-sheet_close w-full', { 'bg-bank-gradient': isActive })}>
-                          <Image
-                            src={item.imgURL}
-                            alt={item.label}
-                            width={20}
-                            height={20}
-                            className={cn({
-                              'brightness-[3] invert-0': isActive
-                            })} />
+                        <Image
+                          src={item.imgURL}
+                          alt={item.label}
+                          width={20}
+                          height={20}
+                          className={cn({
+                            'brightness-[3] invert-0': isActive
+                          })} />
                         <p className={cn('text-16 font-semibold text-black-2', { 'text-white': isActive })}>
                           {item.label}
                         </p>
@@ -68,12 +76,10 @@ const MobileNavbar = ({ user }: MobileNavProps) => {
             </SheetClose>
             FOOTER
           </div>
-
         </SheetContent>
       </Sheet>
-
     </section>
   )
 }
 
-export default MobileNavbar
+export default MobileNavbar;
