@@ -32,8 +32,8 @@ const MobileNavbar = ({ user }: MobileNavProps) => {
         {/* ✅ Added SheetHeader with SheetTitle */}
         <SheetContent side='left' className='border-none bg-white '>
           <SheetHeader>
-            <SheetTitle>Navigation</SheetTitle> 
-            <SheetDescription>Select a section to navigate</SheetDescription>
+            <SheetTitle></SheetTitle> 
+            <SheetDescription></SheetDescription>
           </SheetHeader>
 
           <Link href="/" className='flex cursor-pointer items-center gap-1 px-4'>
