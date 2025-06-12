@@ -1,4 +1,4 @@
-# 💰 Personal Finance Dashboard
+#   🏦 FintechHub
 
 ## A Comprehensive Full-Stack Solution for Managing Your Finances
 
@@ -37,13 +37,13 @@ This repository serves as the central hub for the entire application suite, whic
 
 This project leverages a modern and powerful set of technologies across its various components to ensure scalability, maintainability, and a great user experience:
 
-* **Frontend**:
+* **[Frontend](https://github.com/GarvBakliwal/fintechhub.git)**:
     * [Next.js 14+](https://nextjs.org/): React framework for server-side rendering and static site generation.
     * [Zustand](https://github.com/pmndrs/zustand): A small, fast, and scalable bear-necessities state-management solution for React.
     * [TailwindCSS](https://tailwindcss.com/): A utility-first CSS framework for rapidly building custom designs.
     * [React Hook Form](https://react-hook-form.com/): Performant, flexible and extensible forms with easy-to-use validation.
     * [Zod](https://github.com/colinhacks/zod): TypeScript-first schema declaration and validation library.
-* **Backend**:
+* **[Backend](https://github.com/GarvBakliwal/fintechhub.git)**:
     * [Node.js](https://nodejs.org/): JavaScript runtime for building scalable server-side applications.
     * [Express.js](https://expressjs.com/): Fast, unopinionated, minimalist web framework for Node.js.
     * [MongoDB](https://www.mongodb.com/) & [Mongoose](https://mongoosejs.com/): NoSQL database and an ODM for MongoDB.
@@ -62,7 +62,7 @@ This project leverages a modern and powerful set of technologies across its vari
 ## 📁 Project Structure
 
 This repository follows a monorepo approach, organizing distinct components into their own dedicated directories. Each primary component has its own comprehensive README file for detailed instructions and information:
-
+```
 .
 ├── README.md                      # Your current location: The main project overview.
 ├── README-Frontend.md             # Detailed documentation for the Frontend application.
@@ -80,7 +80,7 @@ This repository follows a monorepo approach, organizing distinct components into
 │   └── nginx.conf
 ├── docker-compose.yml             # Docker Compose file for orchestrating all services locally.
 └── .github/workflows/             # (Optional) Contains GitHub Actions CI/CD workflows if used.
-
+```
 
 ---
 
@@ -94,13 +94,13 @@ For the quickest way to get all services (frontend, backend, MongoDB, NGINX) run
 
 1.  **Clone the Repository**:
     ```bash
-    git clone [https://github.com/your-username/personal-finance-dashboard.git](https://github.com/your-username/personal-finance-dashboard.git)
-    cd personal-finance-dashboard
+    git clone https://github.com/GarvBakliwal/fintechhub.git
+    cd fintechhub
     ```
 2.  **Configure Environment Variables**:
     * Create a `.env.frontend` file in the root directory (or `frontend/.env.local` if Next.js specific). Refer to [`README-Frontend.md`](./README-Frontend.md) for required variables.
     * Create a `.env.backend` file in the root directory (or `backend/.env` if Node.js specific). Refer to [`README-Backend.md`](./README-Backend.md) for required variables.
-    * **Crucially, ensure your Plaid, Google OAuth, and JWT secrets are correctly configured.**
+    * Crucially, ensure your Plaid, Google OAuth, and JWT secrets are correctly configured.
 3.  **Build and Run with Docker Compose**:
     ```bash
     # Ensure Docker Desktop is running
@@ -115,7 +115,7 @@ Once all services are up, you can typically access the frontend application thro
 ## 🌐 Live Demo
 
 Experience the Personal Finance Dashboard live at:
-[**https://your-domain.com**](https://your-domain.com) (Replace with your actual domain when deployed!)
+**[fintechhub.site](http://fintechhub.site)**
 
 ---
 
@@ -153,13 +153,11 @@ This project is open-sourced under the **MIT License**. For the full text of the
 ## 🧑‍💻 Author
 
 **Garv Bakliwal**
-* [LinkedIn Profile](https://linkedin.com/in/your-profile) (Replace with your actual LinkedIn URL)
-* [GitHub Profile](https://github.com/your-username) (Replace with your actual GitHub username)
-* [Your Portfolio/Website (Optional)](https://your-website.com)
+* LinkedIn Profile : [garvbakliwal](https://linkedin.com/in/garvbakliwal)
+* GitHub Profile : [GarvBakliwal](https://github.com/GarvBakliwal)
 
 ---
 
----
 
 # 📦 Frontend - Personal Finance Dashboard UI
 
@@ -174,17 +172,16 @@ A responsive, secure, and feature-rich frontend application for a personal finan
 
 ## 🗒️ Table of Contents
 
-* [🚀 Features](#-features)
-* [🛠️ Tech Stack](#️-tech-stack)
-* [📁 Project Structure](#-project-structure)
-* [📦 Installation](#-installation)
-* [⚙️ Environment Variables](#️-environment-variables-envlocal)
-* [🧪 Development](#-development)
-* [🏗️ Production Build](#️-production-build)
-* [🔍 Usage Examples](#-usage-examples)
-* [✅ Testing](#-testing)
-* [🤝 Contributing](#-contributing)
-* [📜 License](#-license)
+* 🚀 [Features](#-features)
+* 🛠️ [Tech Stack](#️-tech-stack)
+* 📁 [Project Structure](#-project-structure)
+* 📦 [Installation](#-installation)
+* ⚙️ [Environment Variables](#️-environment-variables-envlocal)
+* 🧪 [Development](#-development)
+* 🏗️ [Production Build](#️-production-build)
+* 🔍 [Usage Examples](#-usage-examples)
+* 🤝 [Contributing](#-contributing)
+* 📜 [License](#-license)
 
 ---
 
@@ -220,24 +217,31 @@ frontend/
 ├── public/                       # Static assets like images, fonts.
 ├── app/                          # Next.js App Router root.
 │   ├── (auth)/                   # Grouped routes for authentication (login, register).
-│   ├── (dashboard)/              # Grouped routes for authenticated dashboard sections.
-│   ├── api/                      # API routes (Next.js serverless functions, e.g., for OAuth callbacks).
+│   ├── (root)/                   # Grouped routes for authenticated dashboard sections.
 │   ├── layout.tsx                # Root layout component.
-│   └── page.tsx                  # Root page component.
+│   ├── page.tsx                  # Root page component.
+│   └── globals.css               # Global CSS, TailwindCSS configuration.
+│ 
 ├── components/                   # Reusable UI components (e.g., buttons, forms, navbars).
 │   ├── auth/
-│   ├── common/
+│   ├── ui/
 │   └── dashboard/
+│ 
 ├── lib/                          # Utility functions, helpers, API service layer.
 │   ├── api.ts                    # Axios instance and API call wrappers.
 │   ├── auth.ts                   # Authentication related utilities.
 │   └── plaid.ts                  # Plaid specific client-side logic.
-├── styles/                       # Global CSS, TailwindCSS configuration.
-│   └── globals.css
+│ 
+├── services/                     # API service layer.
+│   ├── auth.ts                   # Authentication related utilities.
+│   ├── data.ts                   # All data fetching related utilities.
+│   ├── addBank.ts                # Bank adding Logic
+│   └── plaid.ts                  # Plaid specific client-side logic.
+│ 
 ├── zustand/                      # Zustand store definitions.
-│   ├── authStore.ts
-│   └── financeStore.ts
+│   └── globalStore.ts
 ├── types/                        # TypeScript type definitions.
+│   └── index.d.ts
 ├── .env.local.example            # Example environment variables file.
 ├── next.config.js                # Next.js configuration.
 ├── tailwind.config.ts            # TailwindCSS configuration.
@@ -251,8 +255,8 @@ To set up the frontend application on your local machine:
 
 1.  **Clone the repository**:
     ```bash
-    git clone [https://github.com/your-username/personal-finance-dashboard.git](https://github.com/your-username/personal-finance-dashboard.git)
-    cd personal-finance-dashboard/frontend
+    git clone https://github.com/GarvBakliwal/fintechhub.git
+    cd fintechhub
     ```
     * **Note**: If you cloned the monorepo, navigate into the `frontend` directory first.
 2.  **Install dependencies**:
@@ -268,20 +272,17 @@ To set up the frontend application on your local machine:
 
 Create a `.env.local` file in the `frontend/` directory based on the `.env.local.example` provided. These variables are crucial for the application to function correctly.
 
-REQUIRED
+* REQUIRED
+```
 NEXT_PUBLIC_BACKEND_URL=http://localhost:8000  # Or your deployed backend URL (e.g., https://api.your-domain.com)
-
-PLAID INTEGRATION (Consult Plaid documentation for values)
+```
+* PLAID INTEGRATION (Consult Plaid documentation for values)
+```
 NEXT_PUBLIC_PLAID_CLIENT_ID=your_plaid_client_id_here
 NEXT_PUBLIC_PLAID_ENV=sandbox # Options: sandbox, development, production
 NEXT_PUBLIC_PLAID_PRODUCTS=transactions,auth # Comma-separated list of Plaid products (e.g., transactions,auth,identity)
 NEXT_PUBLIC_PLAID_COUNTRY_CODES=US # Comma-separated list of country codes (e.g., US,CA)
-
-OAUTH CALLBACK URLs (if Next.js handles OAuth directly)
-These should match the redirect URIs configured in your Google/GitHub OAuth apps.
-If your backend handles OAuth completely, these might not be needed on frontend.
-NEXT_PUBLIC_GOOGLE_CALLBACK_URL=http://localhost:3000/api/auth/callback/google
-NEXT_PUBLIC_GITHUB_CALLBACK_URL=http://localhost:3000/api/auth/callback/github
+```
 > ✅ **Security Note**: Never commit your `.env.local` file to version control. It contains sensitive keys and configurations specific to your environment. `.gitignore` should already be configured to exclude it.
 
 ---
@@ -297,7 +298,9 @@ npm run dev
 ```
 The application will typically be accessible at http://localhost:3000.
 
-🏗️ Production Build
+---
+
+## 🏗️ Production Build
 To build the application for production and serve it:
 
 Build the project:
@@ -313,40 +316,36 @@ npm start
 # or yarn start
 # or pnpm start
 ```
-This will serve the production build. Ensure your NEXT_PUBLIC_BACKEND_URL is set to your deployed backend URL.
-🔍 Usage Examples
+This will serve the production build. Ensure your `NEXT_PUBLIC_BACKEND_URL` is set to your deployed backend URL.
+
+---
+
+## 🔍 Usage Examples
 Upon running the application, you'll be presented with the authentication screen.
 
-Register/Login: Use the built-in forms or opt for Google/GitHub OAuth.
-Connect Bank Accounts: After logging in, you'll be prompted to connect your financial institutions via Plaid Link. Follow the on-screen instructions.
-View Dashboard: Once accounts are linked, navigate to the dashboard to see an overview of your accounts and transactions.
-Explore Transactions: Dive into detailed transaction lists, often with filtering or sorting options.
-✅ Testing
-(If you have tests, describe how to run them here. E.g., Jest, React Testing Library)
+* **Register/Login:** Use the built-in forms or opt for Google/GitHub OAuth.
+* **Connect Bank Accounts:** After logging in, you'll be prompted to connect your financial institutions via Plaid Link. Follow the on-screen instructions.
+* **View Dashboard:** Once accounts are linked, navigate to the dashboard to see an overview of your accounts and transactions.
+* **Explore Transactions:** Dive into detailed transaction lists, often with filtering or sorting options.
 
-To run the unit and integration tests:
+---
 
-```Bash
-npm test
-# or yarn test
-```
-🤝 Contributing
+## 🤝 Contributing
 We welcome contributions to the Personal Finance Dashboard Frontend!
 
-Setup: Follow the Installation and Development steps.
-Branching: Create a new branch for your feature or bug fix: git checkout -b feature/add-new-chart.
-Code Style: Ensure your code adheres to the project's ESLint and Prettier configurations.
-Pull Requests: Submit a clear and detailed pull request, explaining the changes and their purpose. Include screenshots if applicable.
-📜 License
+* Setup: Follow the Installation and Development steps.
+* Branching: Create a new branch for your feature or bug fix: git checkout -b feature/add-new-chart.
+* Code Style: Ensure your code adheres to the project's ESLint and Prettier configurations.
+* Pull Requests: Submit a clear and detailed pull request, explaining the changes and their purpose. Include screenshots if applicable.
+
+---
+
+## 📜 License
 This frontend application is licensed under the MIT License. For more information, see the LICENSE file in the root of the repository.
 
 ---
 
 # 🛠️ Backend - Personal Finance API
-
-
-
-
 
 A robust, secure, and scalable RESTful API built with Node.js and Express.js to serve as the backbone for the Personal Finance Dashboard. This API handles user authentication, integrates with the Plaid API for banking data, and manages all financial transactions and account information. It's designed with security best practices and modularity in mind.
 
