@@ -295,22 +295,25 @@ To run the frontend application in development mode with hot-reloading:
 npm run dev
 # or yarn dev
 # or pnpm dev
+```
 The application will typically be accessible at http://localhost:3000.
 
 🏗️ Production Build
 To build the application for production and serve it:
 
 Build the project:
-Bash
+```Bash
 npm run build
 # or yarn build
 # or pnpm build
+```
 This command compiles the Next.js application into optimized static assets and server-side code.
 Start the production server:
-Bash
+```Bash
 npm start
 # or yarn start
 # or pnpm start
+```
 This will serve the production build. Ensure your NEXT_PUBLIC_BACKEND_URL is set to your deployed backend URL.
 🔍 Usage Examples
 Upon running the application, you'll be presented with the authentication screen.
@@ -324,9 +327,10 @@ Explore Transactions: Dive into detailed transaction lists, often with filtering
 
 To run the unit and integration tests:
 
-Bash
+```Bash
 npm test
 # or yarn test
+```
 🤝 Contributing
 We welcome contributions to the Personal Finance Dashboard Frontend!
 
@@ -337,7 +341,9 @@ Pull Requests: Submit a clear and detailed pull request, explaining the changes 
 📜 License
 This frontend application is licensed under the MIT License. For more information, see the LICENSE file in the root of the repository.
 
-🛠️ Backend - Personal Finance API
+
+
+#🛠️ Backend - Personal Finance API
 
 
 
