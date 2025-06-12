@@ -333,10 +333,10 @@ Upon running the application, you'll be presented with the authentication screen
 ## 🤝 Contributing
 We welcome contributions to the Personal Finance Dashboard Frontend!
 
-* Setup: Follow the Installation and Development steps.
-* Branching: Create a new branch for your feature or bug fix: git checkout -b feature/add-new-chart.
-* Code Style: Ensure your code adheres to the project's ESLint and Prettier configurations.
-* Pull Requests: Submit a clear and detailed pull request, explaining the changes and their purpose. Include screenshots if applicable.
+* **Setup:** Follow the Installation and Development steps.
+* **Branching:** Create a new branch for your feature or bug fix: git checkout -b feature/add-new-chart.
+* **Code Style:** Ensure your code adheres to the project's ESLint and Prettier configurations.
+* **Pull Requests:** Submit a clear and detailed pull request, explaining the changes and their purpose. Include screenshots if applicable.
 
 ---
 
@@ -350,91 +350,97 @@ This frontend application is licensed under the MIT License. For more informatio
 A robust, secure, and scalable RESTful API built with Node.js and Express.js to serve as the backbone for the Personal Finance Dashboard. This API handles user authentication, integrates with the Plaid API for banking data, and manages all financial transactions and account information. It's designed with security best practices and modularity in mind.
 
 ## 🗒️ Table of Contents
-* [🔐 Features
-* [🧰 Tech Stack
-* [📁 Folder Structure
-* [📦 Installation
-* [🗂️ Environment Configuration (.env)
-* [🧪 Development
-* [🚀 API Endpoints
-* [🔒 Security Measures
-* [✅ Testing
-* [🤝 Contributing
-* [📜 License
-* [🔐 Features
+* [🔐 Features](#-features)
+* [🧰 Tech Stack](#-tech-stack)
+* [📁 Folder Structure](#-folder-structure)
+* [📦 Installation](#-installation)
+* [🗂️ Environment Configuration (.env)](#-environment-configuration-env)
+* [🧪 Development](#-development)
+* [🚀 API Endpoints](#-api-endpoints)
+* [🔒 Security Measures](#-security-measures)
+* [🤝 Contributing](#-contributing)
+* [📜 License](#-license)
+
 ---
-JWT Authentication: Secure user authentication using JSON Web Tokens for stateless and scalable sessions.
-OAuth Integration: Seamlessly authenticate users via Google OAuth using Passport.js.
-MongoDB with Mongoose: Persistent data storage using a NoSQL database (MongoDB) with Mongoose ODM for structured data management.
-Plaid API Integration: Connects to the Plaid API to securely fetch and manage user financial accounts and transaction data.
-RESTful API Design: Follows REST principles for clear, predictable, and scalable API endpoints.
-Security Best Practices: Includes rate limiting, CORS configuration, and Helmet for setting secure HTTP headers.
-Comprehensive Error Handling: Robust error handling mechanisms to provide meaningful feedback.
+
+## 🔐 Features
+
+* **JWT Authentication:** Secure user authentication using JSON Web Tokens for stateless and scalable sessions.
+* **OAuth Integration:** Seamlessly authenticate users via Google OAuth using Passport.js.
+* **MongoDB with Mongoose:** Persistent data storage using a NoSQL database (MongoDB) with Mongoose ODM for structured data management.
+* **Plaid API Integration:** Connects to the Plaid API to securely fetch and manage user financial accounts and transaction data.
+* **RESTful API Design:** Follows REST principles for clear, predictable, and scalable API endpoints.
+* **Security Best Practices:** Includes rate limiting, CORS configuration, and Helmet for setting secure HTTP headers.
+* **Comprehensive Error Handling:** Robust error handling mechanisms to provide meaningful feedback.
 ---
-🧰 Tech Stack
-Node.js: JavaScript runtime for building the server-side application.
-Express.js: Fast, unopinionated, minimalist web framework for Node.js.
-MongoDB: NoSQL database for storing user, authentication, and financial data.
-Mongoose: MongoDB object data modeling (ODM) for Node.js.
-Passport.js: Authentication middleware for Node.js, used specifically for Google OAuth strategy.
-Plaid Node.js SDK: Official SDK for interacting with the Plaid API.
-bcryptjs: For secure password hashing.
-jsonwebtoken: For generating and verifying JSON Web Tokens.
-dotenv: To load environment variables from a .env file.
-cors: Node.js middleware for enabling Cross-Origin Resource Sharing.
-helmet: Helps secure Express apps by setting various HTTP headers.
-morgan: HTTP request logger middleware for Node.js.
-express-rate-limit: Basic rate limiting middleware for Express.
+## 🧰 Tech Stack
+* **Node.js:** JavaScript runtime for building the server-side application.
+* **Express.js:** Fast, unopinionated, minimalist web framework for Node.js.
+* **MongoDB:** NoSQL database for storing user, authentication, and financial data.
+* **Mongoose:** MongoDB object data modeling (ODM) for Node.js.
+* **Passport.js:** Authentication middleware for Node.js, used specifically for Google OAuth strategy.
+* **Plaid Node.js SDK:** Official SDK for interacting with the Plaid API.
+* **bcryptjs:** For secure password hashing.
+* **jsonwebtoken:** For generating and verifying JSON Web Tokens.
+* **dotenv:** To load environment variables from a .env file.
+* **cors:** Node.js middleware for enabling Cross-Origin Resource Sharing.
+* **helmet:** Helps secure Express apps by setting various HTTP headers.
 ---
-##📁 Folder Structure
+
+## 📁 Folder Structure
 The backend application is structured for clarity, maintainability, and scalability:
 ```
-backend/
-├── config/                       # Configuration files (e.g., database connection, Passport setup).
+src/
+│
+├── index.ts                      # Main Express application setup and entry point for the Node.js server.
+│
+├── lib/                          # Utility functions (e.g., JWT generation, Plaid helpers).
+│   ├── jwt.ts
 │   ├── db.ts                     # MongoDB connection setup.
-│   └── passport.ts               # Passport.js configuration for OAuth.
+│   └── plaidClient.ts
+│
 ├── controllers/                  # Logic for handling API requests and responses.
 │   ├── authController.ts
 │   ├── accountController.ts
 │   └── transactionController.ts
+│
 ├── middleware/                   # Express middleware (e.g., authentication, error handling).
 │   └── authMiddleware.ts
+│
 ├── models/                       # Mongoose schemas and models for database entities.
 │   ├── User.ts
 │   ├── Account.ts
 │   └── Transaction.ts
+│
 ├── routes/                       # Defines API endpoints and links them to controllers.
 │   ├── authRoutes.ts
 │   ├── accountRoutes.ts
 │   └── transactionRoutes.ts
-├── utils/                        # Utility functions (e.g., JWT generation, Plaid helpers).
-│   ├── generateToken.ts
-│   └── plaidClient.ts
-├── app.ts                        # Main Express application setup.
-├── server.ts                     # Entry point for the Node.js server.
+│
 ├── .env.example                  # Example environment variables file.
 └── package.json                  # Project dependencies and scripts.
 ```
 ---
-##📦 Installation
+## 📦 Installation
 To set up the backend API on your local machine:
 
-Clone the repository:
+* Clone the repository:
 ```Bash
-git clone [https://github.com/your-username/personal-finance-dashboard.git](https://github.com/your-username/personal-finance-dashboard.git)
-cd personal-finance-dashboard/backend
+git clone [https://github.com/GarvBakliwal/FintechHubBackend.git](https://github.com/GarvBakliwal/FintechHubBackend.git)
+cd FintechHubBackend
+```
 Note: If you cloned the monorepo, navigate into the backend directory first.
-Install dependencies:
-Bash
+* Install dependencies:
+```Bash
 npm install
 # or yarn install
 # or pnpm install
 ```
 ---
 
-##🗂️ Environment Configuration (.env)
+## 🗂️ Environment Configuration (.env)
 Create a .env file in the backend/ directory based on the .env.example provided. These variables are essential for the API to connect to the database, secure tokens, and interact with external services.
-
+```
 PORT=8000 # The port your Express app will listen on
 
 # MongoDB Connection
@@ -448,22 +454,13 @@ PLAID_CLIENT_ID=your_plaid_client_id
 PLAID_SECRET=your_plaid_secret
 PLAID_ENV=sandbox # Options: sandbox, development, production
 
-# Google OAuth Credentials (Get these from Google Cloud Console)
-GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_CALLBACK_URL=http://localhost:8000/api/auth/google/callback # Must match redirect URI in Google Console
+# Frontend Client URL (for CORS)
+SITE_URL=http://localhost:3000 # Your frontend application's URL (e.g., http://localhost:3000 or [https://your-domain.com](https://your-domain.com))
+```
 
-# Frontend Client URL (for CORS and OAuth redirects)
-CLIENT_URL=http://localhost:3000 # Your frontend application's URL (e.g., http://localhost:3000 or [https://your-domain.com](https://your-domain.com))
-
-# Optional: GitHub OAuth Credentials
-# GITHUB_CLIENT_ID=your_github_client_id
-# GITHUB_CLIENT_SECRET=your_github_client_secret
-# GITHUB_CALLBACK_URL=http://localhost:8000/api/auth/github/callback
-
-✅ Security Note: Never commit your .env file to version control. It contains sensitive API keys and secrets. .gitignore should already be configured to exclude it.
+> ✅ Security Note: Never commit your .env file to version control. It contains sensitive API keys and secrets. `.gitignore` should already be configured to exclude it.
 ---
-##🧪 Development
+## 🧪 Development
 To run the backend API in development mode with hot-reloading (using nodemon):
 
 ```Bash
@@ -473,63 +470,60 @@ npm run dev
 ```
 The API server will typically start on http://localhost:8000 (or the PORT specified in your .env).
 
-🚀 API Endpoints
-The API provides the following core endpoints:
 ---
-## User & Authentication
 
-Method	Route	Description	Request Body (Example)	Success Response (Example)
-POST	/api/auth/register	Register a new user	{ "username": "user", "email": "user@example.com", "password": "password123" }	{ "message": "User registered successfully", "token": "..." }
-POST	/api/auth/login	Authenticate and login a user	{ "email": "user@example.com", "password": "password123" }	{ "message": "Logged in successfully", "token": "..." }
-GET	/api/auth/google	Initiate Google OAuth login flow	N/A	Redirects to Google authentication page
-GET	/api/auth/google/callback	Google OAuth callback handler	N/A	Redirects to frontend with token/status
-GET	/api/auth/me	Get authenticated user's profile (requires JWT)	N/A	{ "id": "...", "email": "...", "username": "..." }
-Plaid & Financial Data
+## 🚀 API Endpoints
+The API provides the following core endpoints:
+
+### User & Authentication
+
+| Method | Route                        | Description                                      | Request Body (Example)                                                                 | Success Response (Example)                                                |
+|--------|------------------------------|--------------------------------------------------|----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| POST   | /api/auth/register           | Register a new user                              | `{ "username": "user", "email": "user@example.com", "password": "password123" }`      | `{ "message": "User registered successfully", "token": "..." }`            |
+| POST   | /api/auth/login              | Authenticate and login a user                    | `{ "email": "user@example.com", "password": "password123" }`                          | `{ "message": "Logged in successfully", "token": "..." }`                  |
+| GET    | /api/auth/google             | Initiate Google OAuth login flow                 | N/A                                                                                    | Redirects to Google authentication page                                    |
+| GET    | /api/auth/google/callback    | Google OAuth callback handler                    | N/A                                                                                    | Redirects to frontend with token/status                                    |
+| GET    | /api/auth/me                 | Get authenticated user's profile (requires JWT)  | N/A                                                                                    | `{ "id": "...", "email": "...", "username": "..." }`                       |
+
+### Plaid & Financial Data
 
 These endpoints typically require a valid JWT in the Authorization: Bearer <token> header.
 
-Method	Route	Description	Request Body (Example)	Success Response (Example)
-POST	/api/plaid/create_link_token	Create a Plaid Link token for client-side use	N/A	{ "link_token": "link-sandbox-..." }
-POST	/api/plaid/set_access_token	Exchange Plaid public token for access token	{ "public_token": "public-sandbox-..." }	{ "message": "Plaid account linked successfully" }
-GET	/api/accounts	Get all linked Plaid accounts for user	N/A	[ { "account_id": "...", "name": "...", "balances": {} }, ... ]
-GET	/api/transactions	Get all transactions for linked accounts	?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD (optional query params)	[ { "transaction_id": "...", "name": "...", "amount": "..." }, ... ]
-POST	/api/plaid/webhook	Plaid webhook listener (for async updates)	(Plaid webhook payload)	{ "status": "ok" }
-🔒 Security Measures
-Helmet: Sets various HTTP headers to help protect your app from well-known web vulnerabilities.
-CORS: Configured to allow requests only from your specified frontend CLIENT_URL.
-Rate Limiting: express-rate-limit is used to prevent brute-force attacks and abuse on certain routes (e.g., login, register).
-JWT: Tokens are used for secure and stateless authentication, expiring after a set duration.
-Password Hashing: User passwords are securely hashed using bcryptjs before being stored in the database.
-Environment Variables: Sensitive credentials are kept out of source control using .env files.
-✅ Testing
-(If you have tests, describe how to run them here. E.g., Mocha, Chai, Jest)
+| Method | Route                            | Description                                      | Request Body (Example)                            | Success Response (Example)                                         |
+|--------|----------------------------------|--------------------------------------------------|--------------------------------------------------|---------------------------------------------------------------------|
+| POST   | /api/plaid/create_link_token     | Create a Plaid Link token for client-side use    | N/A                                              | `{ "link_token": "link-sandbox-..." }`                              |
+| POST   | /api/plaid/set_access_token      | Exchange Plaid public token for access token     | `{ "public_token": "public-sandbox-..." }`       | `{ "message": "Plaid account linked successfully" }`               |
+| GET    | /api/accounts                    | Get all linked Plaid accounts for user           | N/A                                              | `[ { "account_id": "...", "name": "...", "balances": {} }, ... ]` |
+| GET    | /api/transactions                | Get all transactions for linked accounts         | `?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD` (optional query params) | `[ { "transaction_id": "...", "name": "...", "amount": "..." }, ... ]` |
 
-To run the backend unit and integration tests:
-
-```Bash
-npm test
-# or yarn test
-```
 ---
 
-##🤝 Contributing
+## 🔒 Security Measures
+* **Helmet:** Sets various HTTP headers to help protect your app from well-known web vulnerabilities.
+* **CORS:** Configured to allow requests only from your specified frontend CLIENT_URL.
+* **JWT:** Tokens are used for secure and stateless authentication, expiring after a set duration.
+* **Password Hashing:** User passwords are securely hashed using bcryptjs before being stored in the database.
+* **Environment Variables:** Sensitive credentials are kept out of source control using .env files.
+
+---
+
+## 🤝 Contributing
 We welcome contributions to the Personal Finance Dashboard Backend!
 
-Setup: Follow the Installation and Development steps.
-Branching: Create a new branch for your feature or bug fix: git checkout -b feature/add-new-api-endpoint.
-Code Style: Ensure your code adheres to the project's ESLint and Prettier configurations.
-API Documentation: If adding new endpoints, update the API Endpoints section in this README.
-Pull Requests: Submit a clear and detailed pull request, explaining the changes and their purpose.
+* **Setup:** Follow the Installation and Development steps.
+* **Branching:** Create a new branch for your feature or bug fix: git checkout -b feature/add-new-api-endpoint.
+* **Code Style:** Ensure your code adheres to the project's ESLint and Prettier configurations.
+* **API Documentation:** If adding new endpoints, update the API Endpoints section in this README.
+* **Pull Requests:** Submit a clear and detailed pull request, explaining the changes and their purpose.
 ---
-##📜 License
+## 📜 License
 This backend API is licensed under the MIT License. For more information, see the LICENSE file in the root of the repository.
 
 ---
+
+---
+
 #🚀 Deployment - Full Stack Finance App Infrastructure
-
-
-
-
 
 This document details the production-ready deployment setup for the Personal Finance Dashboard application. It outlines the architecture, components, and steps involved in containerizing, orchestrating, and deploying the full-stack application using Docker, Jenkins CI/CD, NGINX as a reverse proxy, and AWS EC2 as the hosting environment. This setup ensures high availability, scalability, and automated deployments.
 
