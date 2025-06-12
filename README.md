@@ -523,170 +523,127 @@ This backend API is licensed under the MIT License. For more information, see th
 
 ---
 
-#🚀 Deployment - Full Stack Finance App Infrastructure
+# 🚀 Deployment – Full Stack Finance App Infrastructure
 
-This document details the production-ready deployment setup for the Personal Finance Dashboard application. It outlines the architecture, components, and steps involved in containerizing, orchestrating, and deploying the full-stack application using Docker, Jenkins CI/CD, NGINX as a reverse proxy, and AWS EC2 as the hosting environment. This setup ensures high availability, scalability, and automated deployments.
+This document details the production-ready deployment setup for the Personal Finance Dashboard application on **RHEL 9**, covering containerization, orchestration, CI/CD, reverse proxy, and AWS EC2 hosting.
 
-##🗒️ Table of Contents
-* [🏗️ Architecture Overview
-* [🧱 Key Components
-* [📦 Docker Setup
-* [Docker Compose (docker-compose.yml)
-* [NGINX Configuration (nginx.conf)
-* [⚙️ Environment Files for Deployment
-* [☁️ AWS EC2 Deployment Steps
-Prerequisites
-EC2 Instance Setup
-Deployment Procedure
-🔐 Domain & SSL Configuration
-✅ Jenkins CI/CD Pipeline
-Local Jenkins Setup (Optional)
-Jenkins Pipeline Workflow
-🤝 Contributing
-📜 License
+## 🗒️ Table of Contents
+* [🏗️ Architecture Overview](#🏗️-architecture-overview)  
+* [🧱 Key Components](#🧱-key-components)  
+* [📦 Docker Setup](#📦-docker-setup)  
+* [⚙️ Environment Files for Deployment](#⚙️-environment-files-for-deployment)  
+* [☁️ AWS EC2 (RHEL 9) Deployment Steps](#☁️-aws-ec2-rhel-9-deployment-steps)  
+  * Prerequisites  
+  * EC2 Instance Setup  
+  * Deployment Procedure  
+* [🔐 Domain & SSL Configuration](#🔐-domain--ssl-configuration)  
+* [✅ Jenkins CI/CD Pipeline](#✅-jenkins-cicd-pipeline)  
+* [🤝 Contributing](#🤝-contributing)  
+* [📜 License](#📜-license)  
+
+---
+
+## 🏗️ Architecture Overview
+
+Containerized microservices orchestrated via Docker Compose. NGINX acts as a reverse proxy, and Jenkins handles CI/CD to a **RHEL 9** EC2 host.
 🏗️ Architecture Overview
 The application is deployed using a containerized microservices approach orchestrated by Docker Compose, with NGINX acting as a reverse proxy to manage incoming traffic and direct it to the appropriate services. Jenkins automates the build and deployment process to an AWS EC2 instance.
 ```
-+------------------+     +------------------------+
-|      Internet    | --> |   Domain (your-domain.com) |
-+------------------+     +------------------------+
-         |                       |
-         | (HTTP/S Traffic)      |
-         V                       V
-+-------------------------------------------------+
-|              AWS EC2 Instance (Ubuntu)          |
-|  +-------------------------------------------+  |
-|  |           NGINX (Reverse Proxy)           |  |
-|  | Listen 80/443, Routes Traffic to:         |  |
-|  +-------------------------------------------+  |
-|    |           |           |                  |
-|    |           |           |                  |
-|    V           V           V                  |
-|  +-------------------------------------------+  |
-|  |           Docker Network                  |  |
-|  |  +-------------------+  +-------------------+  |
-|  |  |     Frontend      |  |     Backend       |  |
-|  |  | (Next.js - 3000)  |  | (Node.js - 8000)  |  |
-|  |  +-------------------+  +-------------------+  |
-|  |           | (MongoDB Connection)             |  |
-|  |           V                                  |  |
-|  |  +-------------------+                      |  |
-|  |  |     MongoDB       |                      |  |
-|  |  | (Data Persistence)|                      |  |
-|  |  +-------------------+                      |  |
-|  +-------------------------------------------+  |
-+-------------------------------------------------+
++------------------+     +------------------------------+
+|      Internet    | --> |   Domain (your-domain.com)   |
++------------------+     +------------------------------+
+         |                              |
+         |        (HTTP/S Traffic)      |
+         V                              V
++--------------------------------------------------------+
+|              AWS EC2 Instance (RHEL 9)                 |
+|      +-------------------------------------------+     |
+|      |           NGINX (Reverse Proxy)           |     |
+|      |    Listen 80/443, Routes Traffic to:      |     |
+|      +-------------------------------------------+     |
+|              |            |            |               |
+|              |            |            |               |
+|              V            V            V               |
+|  +--------------------------------------------------+  |
+|  |                 Docker Network                   |  |
+|  |  +-------------------+  +-------------------+    |  |
+|  |  |     Frontend      |  |     Backend       |    |  |
+|  |  | (Next.js - 3000)  |  | (Node.js - 8000)  |    |  |
+|  |  +-------------------+  +-------------------+    |  |
+|  |                                   | (MongoDB     |  |
+|  |                                   | Connection)  |  |
+|  |                                   V              |  |
+|  |                          +-------------------+   |  |
+|  |                          |     MongoDB       |   |  |
+|  |                          | (Data Persistence)|   |  |
+|  |                          +-------------------+   |  |
+|  +--------------------------------------------------+  |
++--------------------------------------------------------+
 ```
-🧱 Key Components
-Frontend: The Next.js 14+ application, served as a Docker container.
-Backend: The Node.js + Express + MongoDB API, served as a Docker container.
-MongoDB: A dedicated Docker container for the database, with persistent volume mapping for data integrity.
-NGINX: Acts as a reverse proxy to:
-Route traffic for the frontend (/) and backend (/api).
-Handle SSL termination (recommended).
-Serve static assets if needed.
-Docker Compose: Used to define and run the multi-container Docker application with a single command.
-Jenkins: An automation server that orchestrates the CI/CD pipeline, building Docker images, pushing them (optionally) to a registry, and deploying them to the EC2 instance via SSH.
-AWS EC2 Ubuntu Instance: The cloud virtual machine hosting all Docker containers.
-📦 Docker Setup
-The core of our deployment strategy relies on Docker for containerization and Docker Compose for orchestrating the multi-service application.
+---
 
-Docker Compose (docker-compose.yml)
+## 🧱 Key Components
 
-This file defines the services, networks, and volumes for our application. It's placed in the root of the monorepo.
+- **Frontend**: Next.js 14+ in Docker  
+- **Backend**: Node.js + Express + MongoDB in Docker  
+- **MongoDB**: Dedicated container, persistent volume  
+- **NGINX**: Reverse proxy for `/` → frontend and `/api` → backend, SSL termination  
+- **Docker Compose**: Orchestrates multi-container setup  
+- **Jenkins**: Automates Docker image builds, pushes, and deploys via SSH  
+- **AWS EC2 (RHEL 9)**: Hosts all Docker containers
 
-YAML
-version: '3.8' # Use a recent Docker Compose file format
+---
+
+## 📦 Docker Setup
+
+Define services, networks, and volumes in `docker-compose.yml` at the repo root.
+
+```yaml
+version: '3.8'
 
 services:
-  # Frontend Service
   frontend:
-    build:
-      context: ./frontend # Path to your frontend Dockerfile
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000" # Expose frontend port for NGINX to access within the Docker network
-    environment:
-      # Inject frontend specific environment variables from an .env file
-      # This file should be created manually on the server (e.g., .env.frontend)
-      - NEXT_PUBLIC_BACKEND_URL=<span class="math-inline">\{NEXT\_PUBLIC\_BACKEND\_URL\}
-\- NEXT\_PUBLIC\_PLAID\_CLIENT\_ID\=</span>{NEXT_PUBLIC_PLAID_CLIENT_ID}
-      - NEXT_PUBLIC_PLAID_ENV=<span class="math-inline">\{NEXT\_PUBLIC\_PLAID\_ENV\}
-\- NEXT\_PUBLIC\_PLAID\_PRODUCTS\=</span>{NEXT_PUBLIC_PLAID_PRODUCTS}
-      - NEXT_PUBLIC_PLAID_COUNTRY_CODES=<span class="math-inline">\{NEXT\_PUBLIC\_PLAID\_COUNTRY\_CODES\}
-\# Add other frontend env vars as needed
-networks\:
-\- app\-network
-restart\: always \# Ensure the service restarts if it crashes
-\# Backend S<26\>ervice
-backend\:
-build\:
-context\: \./backend \# Path to your backend Dockerfile
-dockerfile\: Dockerfile
-ports\:
-\- "8000\:8000" \# Expose backend</26\> port for NGINX to access
-environment\:
-\# Inject backend specific environment variables from an \.env file
-\# This file should be created manually on the server \(e\.g\., \.env\.backend\)
-\- PORT\=</span>{PORT}
-      - MONGO_URI=<span class="math-inline">\{MONGO\_URI\}
-\- JWT\_SECRET\=</span>{JWT_SECRET}
-      - PLAID_CLIENT_ID=<span class="math-inline">\{PLAID\_CLIENT\_ID\}
-\- PLAID\_SECRET\=</span>{PLAID_SECRET}
-      - PLAID_ENV=<span class="math-inline">\{PLAID\_ENV\}
-\- GOOGLE\_CLIENT\_ID\=</span>{GOOGLE_CLIENT_ID}
-      - GOOGLE_CLIENT_SECRET=<span class="math-inline">\{GOOGLE\_CLIENT\_SECRET\}
-\- GOOGLE\_CALLBACK\_URL\=</span>{GOOGLE_CALLBACK_URL}
-      - CLIENT_URL=${CLIENT_URL} # Used for CORS and OAuth redirects
-      # Add other backend env vars as needed
-    networks:
-      - app-network
-    depends_on:
-      - mongo # Ensure MongoDB is up before the backend starts
+    build: { context: ./frontend, dockerfile: Dockerfile }
+    ports: ["3000:3000"]
+    env_file: .env.frontend
+    networks: [app-network]
     restart: always
 
-  # MongoDB Service
+  backend:
+    build: { context: ./backend, dockerfile: Dockerfile }
+    ports: ["8000:8000"]
+    env_file: .env.backend
+    networks: [app-network]
+    depends_on: [mongo]
+    restart: always
+
   mongo:
-    image: mongo:latest # Use the official MongoDB Docker image
-    ports:
-      - "27017:27017" # Optional: Expose for local debugging, but not necessary for production
-    volumes:
-      - mongo-data:/data/db # Persist MongoDB data outside the container
-    networks:
-      - app-network
+    image: mongo:latest
+    volumes: [mongo-data:/data/db]
+    networks: [app-network]
     restart: always
 
-  # NGINX Reverse Proxy Service
   nginx:
-    image: nginx:stable-alpine # Use a lightweight NGINX image
+    image: nginx:stable-alpine
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # Mount the NGINX configuration
-      # Optional: Mount SSL certificates if managing them directly
-      # - /etc/letsencrypt/live/[your-domain.com/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro](https://your-domain.com/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro)
-      # - /etc/letsencrypt/live/[your-domain.com/privkey.pem:/etc/nginx/ssl/privkey.pem:ro](https://your-domain.com/privkey.pem:/etc/nginx/ssl/privkey.pem:ro)
-    ports:
-      - "80:80" # Expose HTTP port for incoming traffic
-      # - "443:443" # Expose HTTPS port for incoming traffic (recommended for production)
-    depends_on:
-      - frontend # Ensure frontend is up before NGINX tries to route to it
-      - backend  # Ensure backend is up before NGINX tries to route to it
-    networks:
-      - app-network
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports: ["80:80"]
+    depends_on: [frontend, backend]
+    networks: [app-network]
     restart: always
 
-# Define named volumes for data persistence
 volumes:
-  mongo-data: # This will create a Docker volume to store MongoDB data persistently
+  mongo-data:
 
-# Define a custom bridge network for internal communication
 networks:
   app-network:
-    driver: bridge # Default Docker bridge network
-NGINX Configuration (nginx/nginx.conf)
+    driver: bridge
+```
+### NGINX Configuration (nginx/nginx.conf)
 
 This configuration routes traffic based on the path. /api requests go to the backend, and all other requests go to the frontend.
 
-Nginx
+```Nginx
 # nginx/nginx.conf
 events {
     worker_connections 1024; # Max number of simultaneous connections that can be opened by a worker process.
@@ -743,134 +700,189 @@ http {
         # ssl_dhparam /etc/nginx/ssl/dhparam.pem; # DH parameters for stronger security
     }
 }
-⚙️ Environment Files for Deployment
+```
+## ⚙️ Environment Files for Deployment
 For production deployments, it's crucial to manage environment variables securely. Instead of baking them into Docker images, you should load them from .env files on your EC2 instance.
 
 Create the following files directly on your EC2 instance in the root directory where your docker-compose.yml resides:
 
-.env.frontend: Contains all NEXT_PUBLIC_ variables for the frontend.
-.env.backend: Contains all backend variables (PORT, MONGO_URI, JWT_SECRET, Plaid/Google credentials, etc.).
-Example .env.backend (on EC2):
+* .env.frontend: Contains all NEXT_PUBLIC_ variables for the frontend.
+   * Example .env.frontend (on EC2):
+   ```
+   NEXT_PUBLIC_BACKEND_URL=[https://your-domain.com/api](https://your-domain.com/api) # Use your domain!
+   NEXT_PUBLIC_PLAID_CLIENT_ID=your_production_plaid_client_id
+   NEXT_PUBLIC_PLAID_ENV=production
+   NEXT_PUBLIC_PLAID_PRODUCTS=transactions,auth
+   NEXT_PUBLIC_PLAID_COUNTRY_CODES=US
+   ```
+* .env.backend: Contains all backend variables (PORT, MONGO_URI, JWT_SECRET, Plaid/Google credentials, etc.).
+   * Example .env.backend (on EC2):
+   ```
+   PORT=8000
+   MONGO_URI=mongodb://mongo:27017/personal_finance_db # 'mongo' refers to the service name in docker-compose
+   JWT_SECRET=your_production_jwt_secret_!!!!!!!_VERY_LONG_AND_RANDOM
+   PLAID_CLIENT_ID=your_production_plaid_client_id
+   PLAID_SECRET=your_production_plaid_secret
+   PLAID_ENV=production # Crucial for production
+   SITE_URL=[https://your-domain.com](https://your-domain.com) # Use your domain!
+   ```
+> ⚠️ DO NOT COMMIT THESE FILES TO GIT! Ensure they are listed in your `.gitignore`. Manage them securely on your server.
 
-PORT=8000
-MONGO_URI=mongodb://mongo:27017/personal_finance_db # 'mongo' refers to the service name in docker-compose
-JWT_SECRET=your_production_jwt_secret_!!!!!!!_VERY_LONG_AND_RANDOM
-PLAID_CLIENT_ID=your_production_plaid_client_id
-PLAID_SECRET=your_production_plaid_secret
-PLAID_ENV=production # Crucial for production environment
-GOOGLE_CLIENT_ID=your_production_google_client_id
-GOOGLE_CLIENT_SECRET=your_production_google_secret
-GOOGLE_CALLBACK_URL=[https://your-domain.com/api/auth/google/callback](https://your-domain.com/api/auth/google/callback) # Use your domain!
-CLIENT_URL=[https://your-domain.com](https://your-domain.com) # Use your domain!
-Example .env.frontend (on EC2):
+---
 
-NEXT_PUBLIC_BACKEND_URL=[https://your-domain.com/api](https://your-domain.com/api) # Use your domain!
-NEXT_PUBLIC_PLAID_CLIENT_ID=your_production_plaid_client_id
-NEXT_PUBLIC_PLAID_ENV=production
-NEXT_PUBLIC_PLAID_PRODUCTS=transactions,auth
-NEXT_PUBLIC_PLAID_COUNTRY_CODES=US
-⚠️ DO NOT COMMIT THESE FILES TO GIT! Ensure they are listed in your .gitignore. Manage them securely on your server.
+## ☁️ AWS EC2 Deployment Steps
 
-☁️ AWS EC2 Deployment Steps
-Prerequisites
 
-AWS Account: An active AWS account.
-EC2 Key Pair: An SSH key pair for accessing your EC2 instance.
-Domain Name: A registered domain name (e.g., your-domain.com).
-Route 53/DNS Management: Access to manage your domain's DNS records (e.g., AWS Route 53, Cloudflare).
-Plaid/Google Credentials: Production-ready API keys for Plaid and Google OAuth.
-SSH Client: (e.g., OpenSSH, PuTTY).
-EC2 Instance Setup
+### Prerequisites
 
-Launch EC2 Instance:
-Choose an Ubuntu Server AMI (e.g., Ubuntu Server 22.04 LTS).
-Select an instance type (e.g., t2.medium or t3.medium for a full-stack app, adjust based on traffic).
-Configure Security Group:
-Allow SSH (Port 22) from your IP address.
-Allow HTTP (Port 80) from 0.0.0.0/0.
-Allow HTTPS (Port 443) from 0.0.0.0/0 (Crucial for production).
-Attach your SSH key pair.
-Launch the instance.
-Connect to EC2:
-Code snippet
-ssh -i /path/to/your-key.pem ubuntu@YOUR_EC2_PUBLIC_IP
-Update System & Install Docker:
-Bash
-sudo apt update
-sudo apt upgrade -y
-sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
-curl -fsSL [https://download.docker.com/linux/ubuntu/gpg](https://download.docker.com/linux/ubuntu/gpg) | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] [https://download.docker.com/linux/ubuntu](https://download.docker.com/linux/ubuntu) $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io -y
-sudo usermod -aG docker ubuntu # Add current user to docker group to run docker commands without sudo
-newgrp docker # Activate new group (you might need to re-login SSH for this to fully take effect)
-Install Docker Compose:
-Bash
-sudo apt install docker-compose -y # Or install via curl for latest version:
-# sudo curl -L "[https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname](https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname) -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-# sudo chmod +x /usr/local/bin/docker-compose
-Deployment Procedure (Manual for first time, then Jenkins)
+   * **AWS Account**: An active AWS account.
+     
+   * **EC2 Key Pair**: An SSH key pair for accessing your EC2 instance.
+     
+   * **Domain Name:** A registered domain name (e.g., your-domain.com).
+     
+   * **Route 53/DNS Management:** Access to manage your domain's DNS records (e.g., AWS Route 53, Cloudflare).
+     
+   * **Plaid Credentials:** Production-ready API keys for Plaid.
+     
+   * **SSH Client:** (e.g., OpenSSH, PuTTY).
 
-Clone the Repository:
-Bash
-git clone [https://github.com/your-username/personal-finance-dashboard.git](https://github.com/your-username/personal-finance-dashboard.git)
-cd personal-finance-dashboard
-Create .env files: As described in Environment Files for Deployment, create .env.frontend and .env.backend in the root of the cloned directory.
-Run Docker Compose:
-Bash
-docker-compose up -d --build
-This command will build your images (if not already built/pulled from Docker Hub), and start all services.
-Verify Services:
-Bash
-docker ps
-docker-compose logs -f
-🔐 Domain & SSL Configuration
- For a production application, using a custom domain with SSL (HTTPS) is mandatory for security and user trust.
 
-DNS Configuration (Route 53 or your DNS provider):
-Create an A record for your domain (your-domain.com) and a CNAME or A record for www.your-domain.com (if desired).
-Point these records to the Public IP of your AWS EC2 instance.
-Allow time for DNS propagation (can take a few minutes to hours).
-SSL/TLS Certificate (Let's Encrypt with Certbot Recommended):
-Once your domain points to your EC2 instance, install Certbot:
-Bash
-sudo snap install core
-sudo snap refresh core
-sudo snap install --classic certbot
-sudo ln -s /snap/bin/certbot /usr/bin/certbot
-Stop any existing web server temporarily if it's binding to port 80:
-Bash
-sudo docker-compose stop nginx # Stop NGINX service to free port 80
-Obtain certificate using NGINX authenticator (if NGINX is already configured for the domain, Certbot can auto-configure it, otherwise use --standalone):
-Bash
-sudo certbot certonly --standalone -d your-domain.com -d [www.your-domain.com](https://www.your-domain.com)
-# Or, if NGINX is already running and configured for your domain:
-# sudo certbot --nginx -d your-domain.com -d [www.your-domain.com](https://www.your-domain.com)
-Update your nginx/nginx.conf to include the SSL configuration (uncomment and configure the listen 443 ssl block and ssl_certificate/ssl_certificate_key paths).
-Restart NGINX via Docker Compose:
-Bash
-sudo docker-compose restart nginx
-Set up automatic renewal for your certificates using certbot renew --dry-run and then sudo certbot renew --force-renewal (check if it works), then a cron job: sudo crontab -e and add 0 0 * * * /usr/bin/certbot renew --quiet && docker-compose restart nginx.
-✅ Jenkins CI/CD Pipeline
+ 
+ ### EC2 Instance Setup
+ 
+* **Launch EC2 Instance:**
+
+  * Choose an Ubuntu Server AMI (e.g., Ubuntu Server 22.04 LTS).
+    
+  * Select an instance type (e.g., t2.medium or t3.medium for a full-stack app, adjust based on traffic).
+    
+  * Configure Security Group:
+      * Allow SSH (Port 22) from your IP address.
+        
+      * Allow HTTP (Port 80) from 0.0.0.0/0.
+        
+      * Allow HTTPS (Port 443) from 0.0.0.0/0 (Crucial for production).
+        
+   * Attach your SSH key pair.
+     
+   * Launch the instance.
+
+     
+* **Connect to EC2:**
+  
+   Code snippet
+   ```Bash
+   ssh -i /path/to/your-key.pem ec2-user@YOUR_EC2_PUBLIC_IP
+   ```
+   
+* **Update System & Install Docker:**
+  
+   ```Bash
+   sudo dnf update -y
+   sudo dnf install -y podman-docker docker-compose
+   sudo systemctl enable --now docker
+   ```
+   
+* **Deployment Procedure (Manual for first time, then Jenkins)**
+
+   * Clone the Repository:
+     
+   ```Bash
+   git clone https://github.com/GarvBakliwal/fintechhub.git
+   cd personal-finance-dashboard
+   # create .env.frontend and .env.backend as above
+   ```
+
+   
+   * Run Docker Compose:
+     
+   ```Bash
+   docker-compose up -d --build
+   ```
+   
+   > This command will build your images (if not already built/pulled from Docker Hub), and start all services.
+   
+   * Verify Services:
+     
+   ```Bash
+   docker ps
+   docker-compose logs -f
+   ```
+
+
+---
+
+  
+## 🔐 Domain & SSL Configuration
+
+For a production application, using a custom domain with SSL (HTTPS) is mandatory for security and user trust.
+
+* **DNS Configuration (Route 53 or your DNS provider):**
+  
+   * Create an A record for your domain (your-domain.com) and a CNAME or A record for www.your-domain.com (if desired).
+     
+   * Point these records to the Public IP of your AWS EC2 instance.
+     
+   * Allow time for DNS propagation (can take a few minutes to hours).
+
+     
+* **SSL/TLS Certificate (Let's Encrypt with Certbot Recommended):**
+  
+   * Once your domain points to your EC2 instance, install Certbot:
+     
+   ```Bash
+   sudo snap install core
+   sudo snap refresh core
+   sudo snap install --classic certbot
+   sudo ln -s /snap/bin/certbot /usr/bin/certbot
+   ```
+   
+   * Stop any existing web server temporarily if it's binding to port 80:
+     
+   ```Bash
+   sudo docker-compose stop nginx # Stop NGINX service to free port 80
+   ```
+   
+   * Obtain certificate using NGINX authenticator (if NGINX is already configured for the domain, Certbot can auto-configure it, otherwise use --standalone):
+     
+   ```Bash
+   sudo certbot certonly --standalone -d your-domain.com -d [www.your-domain.com](https://www.your-domain.com)
+   # Or, if NGINX is already running and configured for your domain:
+   # sudo certbot --nginx -d your-domain.com -d [www.your-domain.com](https://www.your-domain.com)
+   ```
+     > Update your nginx/nginx.conf to include the SSL configuration (uncomment and configure the listen 443 ssl block and ssl_certificate/ssl_certificate_key paths).
+  
+   * Restart NGINX via Docker Compose:
+     
+   ```Bash
+   sudo docker-compose restart nginx
+   ```
+   
+   * Set up automatic renewal for your certificates using
+     
+   ```Bash
+     certbot renew --dry-run and then sudo certbot renew --force-renewal (check if it works), then a cron job: sudo crontab -e and add 0 0 * * * /usr/bin/certbot renew --quiet &&           docker-compose restart nginx.
+   ```
+
+ ---
+
+  
+## ✅ Jenkins CI/CD Pipeline
 Jenkins can automate the entire deployment process, triggered by code pushes to your GitHub repository.
 
 Local Jenkins Setup (Optional)
 
 For testing the CI/CD pipeline locally before deploying to AWS:
 
-Install Jenkins: Follow official Jenkins documentation to install on a local VM or Docker container.
-Install Plugins: Git, Docker, SSH Agent, Pipeline, Environment Injector (for .env files).
-Configure Credentials: Add your GitHub credentials and your EC2 SSH private key as Jenkins credentials.
-Create a Pipeline Job:
-Select "Pipeline" project type.
-Choose "Pipeline script from SCM" and point to your GitHub repository.
-Specify your Jenkinsfile path (e.g., Jenkinsfile).
-Jenkins Pipeline Workflow (Jenkinsfile example)
+* **Create a Pipeline Job:**
+  * Select **"Pipeline"** project type.
+  * Choose **"Pipeline script from SCM"** and point to your GitHub repository.
+  * Specify your **Jenkinsfile** path (e.g., `Jenkinsfile`).
 
+* **Jenkins Pipeline Workflow:**
 This is a conceptual Jenkinsfile. You'd place this file in the root of your repository.
-
-Groovy
+```Groovy
 // Jenkinsfile
 pipeline {
     agent any # Or specific agent with Docker capabilities
@@ -951,3 +963,4 @@ export \\</span>(cat .env.backend | xargs)
         }
     }
 }
+```
