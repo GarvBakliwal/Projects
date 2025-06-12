@@ -215,7 +215,7 @@ A responsive, secure, and feature-rich frontend application for a personal finan
 ## 📁 Project Structure
 
 The frontend application follows a standard Next.js project structure, with a focus on modularity and clear separation of concerns:
-
+```
 frontend/
 ├── public/                       # Static assets like images, fonts.
 ├── app/                          # Next.js App Router root.
@@ -242,8 +242,7 @@ frontend/
 ├── next.config.js                # Next.js configuration.
 ├── tailwind.config.ts            # TailwindCSS configuration.
 └── tsconfig.json                 # TypeScript configuration.
-
-
+```
 ---
 
 ## 📦 Installation
@@ -341,9 +340,9 @@ Pull Requests: Submit a clear and detailed pull request, explaining the changes 
 📜 License
 This frontend application is licensed under the MIT License. For more information, see the LICENSE file in the root of the repository.
 
+---
 
-
-#🛠️ Backend - Personal Finance API
+# 🛠️ Backend - Personal Finance API
 
 
 
@@ -351,19 +350,20 @@ This frontend application is licensed under the MIT License. For more informatio
 
 A robust, secure, and scalable RESTful API built with Node.js and Express.js to serve as the backbone for the Personal Finance Dashboard. This API handles user authentication, integrates with the Plaid API for banking data, and manages all financial transactions and account information. It's designed with security best practices and modularity in mind.
 
-🗒️ Table of Contents
-🔐 Features
-🧰 Tech Stack
-📁 Folder Structure
-📦 Installation
-🗂️ Environment Configuration (.env)
-🧪 Development
-🚀 API Endpoints
-🔒 Security Measures
-✅ Testing
-🤝 Contributing
-📜 License
-🔐 Features
+## 🗒️ Table of Contents
+* [🔐 Features
+* [🧰 Tech Stack
+* [📁 Folder Structure
+* [📦 Installation
+* [🗂️ Environment Configuration (.env)
+* [🧪 Development
+* [🚀 API Endpoints
+* [🔒 Security Measures
+* [✅ Testing
+* [🤝 Contributing
+* [📜 License
+* [🔐 Features
+---
 JWT Authentication: Secure user authentication using JSON Web Tokens for stateless and scalable sessions.
 OAuth Integration: Seamlessly authenticate users via Google OAuth using Passport.js.
 MongoDB with Mongoose: Persistent data storage using a NoSQL database (MongoDB) with Mongoose ODM for structured data management.
@@ -371,6 +371,7 @@ Plaid API Integration: Connects to the Plaid API to securely fetch and manage us
 RESTful API Design: Follows REST principles for clear, predictable, and scalable API endpoints.
 Security Best Practices: Includes rate limiting, CORS configuration, and Helmet for setting secure HTTP headers.
 Comprehensive Error Handling: Robust error handling mechanisms to provide meaningful feedback.
+---
 🧰 Tech Stack
 Node.js: JavaScript runtime for building the server-side application.
 Express.js: Fast, unopinionated, minimalist web framework for Node.js.
@@ -385,9 +386,10 @@ cors: Node.js middleware for enabling Cross-Origin Resource Sharing.
 helmet: Helps secure Express apps by setting various HTTP headers.
 morgan: HTTP request logger middleware for Node.js.
 express-rate-limit: Basic rate limiting middleware for Express.
-📁 Folder Structure
+---
+##📁 Folder Structure
 The backend application is structured for clarity, maintainability, and scalability:
-
+```
 backend/
 ├── config/                       # Configuration files (e.g., database connection, Passport setup).
 │   ├── db.ts                     # MongoDB connection setup.
@@ -413,11 +415,13 @@ backend/
 ├── server.ts                     # Entry point for the Node.js server.
 ├── .env.example                  # Example environment variables file.
 └── package.json                  # Project dependencies and scripts.
-📦 Installation
+```
+---
+##📦 Installation
 To set up the backend API on your local machine:
 
 Clone the repository:
-Bash
+```Bash
 git clone [https://github.com/your-username/personal-finance-dashboard.git](https://github.com/your-username/personal-finance-dashboard.git)
 cd personal-finance-dashboard/backend
 Note: If you cloned the monorepo, navigate into the backend directory first.
@@ -426,7 +430,10 @@ Bash
 npm install
 # or yarn install
 # or pnpm install
-🗂️ Environment Configuration (.env)
+```
+---
+
+##🗂️ Environment Configuration (.env)
 Create a .env file in the backend/ directory based on the .env.example provided. These variables are essential for the API to connect to the database, secure tokens, and interact with external services.
 
 PORT=8000 # The port your Express app will listen on
@@ -456,20 +463,21 @@ CLIENT_URL=http://localhost:3000 # Your frontend application's URL (e.g., http:/
 # GITHUB_CALLBACK_URL=http://localhost:8000/api/auth/github/callback
 
 ✅ Security Note: Never commit your .env file to version control. It contains sensitive API keys and secrets. .gitignore should already be configured to exclude it.
-
-🧪 Development
+---
+##🧪 Development
 To run the backend API in development mode with hot-reloading (using nodemon):
 
-Bash
+```Bash
 npm run dev
 # or yarn dev
 # or pnpm dev
+```
 The API server will typically start on http://localhost:8000 (or the PORT specified in your .env).
 
 🚀 API Endpoints
 The API provides the following core endpoints:
-
-User & Authentication
+---
+## User & Authentication
 
 Method	Route	Description	Request Body (Example)	Success Response (Example)
 POST	/api/auth/register	Register a new user	{ "username": "user", "email": "user@example.com", "password": "password123" }	{ "message": "User registered successfully", "token": "..." }
@@ -499,10 +507,13 @@ Environment Variables: Sensitive credentials are kept out of source control usin
 
 To run the backend unit and integration tests:
 
-Bash
+```Bash
 npm test
 # or yarn test
-🤝 Contributing
+```
+---
+
+##🤝 Contributing
 We welcome contributions to the Personal Finance Dashboard Backend!
 
 Setup: Follow the Installation and Development steps.
@@ -510,11 +521,12 @@ Branching: Create a new branch for your feature or bug fix: git checkout -b feat
 Code Style: Ensure your code adheres to the project's ESLint and Prettier configurations.
 API Documentation: If adding new endpoints, update the API Endpoints section in this README.
 Pull Requests: Submit a clear and detailed pull request, explaining the changes and their purpose.
-📜 License
+---
+##📜 License
 This backend API is licensed under the MIT License. For more information, see the LICENSE file in the root of the repository.
 
-
-🚀 Deployment - Full Stack Finance App Infrastructure
+---
+#🚀 Deployment - Full Stack Finance App Infrastructure
 
 
 
@@ -522,14 +534,14 @@ This backend API is licensed under the MIT License. For more information, see th
 
 This document details the production-ready deployment setup for the Personal Finance Dashboard application. It outlines the architecture, components, and steps involved in containerizing, orchestrating, and deploying the full-stack application using Docker, Jenkins CI/CD, NGINX as a reverse proxy, and AWS EC2 as the hosting environment. This setup ensures high availability, scalability, and automated deployments.
 
-🗒️ Table of Contents
-🏗️ Architecture Overview
-🧱 Key Components
-📦 Docker Setup
-Docker Compose (docker-compose.yml)
-NGINX Configuration (nginx.conf)
-⚙️ Environment Files for Deployment
-☁️ AWS EC2 Deployment Steps
+##🗒️ Table of Contents
+* [🏗️ Architecture Overview
+* [🧱 Key Components
+* [📦 Docker Setup
+* [Docker Compose (docker-compose.yml)
+* [NGINX Configuration (nginx.conf)
+* [⚙️ Environment Files for Deployment
+* [☁️ AWS EC2 Deployment Steps
 Prerequisites
 EC2 Instance Setup
 Deployment Procedure
@@ -541,7 +553,7 @@ Jenkins Pipeline Workflow
 📜 License
 🏗️ Architecture Overview
 The application is deployed using a containerized microservices approach orchestrated by Docker Compose, with NGINX acting as a reverse proxy to manage incoming traffic and direct it to the appropriate services. Jenkins automates the build and deployment process to an AWS EC2 instance.
-
+```
 +------------------+     +------------------------+
 |      Internet    | --> |   Domain (your-domain.com) |
 +------------------+     +------------------------+
@@ -571,6 +583,7 @@ The application is deployed using a containerized microservices approach orchest
 |  |  +-------------------+                      |  |
 |  +-------------------------------------------+  |
 +-------------------------------------------------+
+```
 🧱 Key Components
 Frontend: The Next.js 14+ application, served as a Docker container.
 Backend: The Node.js + Express + MongoDB API, served as a Docker container.
